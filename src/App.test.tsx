@@ -19,3 +19,9 @@ test('renders link to Viewer page', () => {
   const viewerLink = getByText('Viewer');
   expect(viewerLink).toBeInTheDocument();
 });
+
+test('renders link to Feedback page', () => {
+  const { getByText } = render(<App />);
+  const feedbackLink = getByText('Feedback');
+  expect(feedbackLink).toBeInTheDocument();
+});
