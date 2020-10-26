@@ -50,6 +50,15 @@ function Navigation(props:any) {
                   Viewer
                 </Link>
               </li>
+              <li
+                className={`nav-item  ${
+                  props.location.pathname === "/feedback" ? "active" : ""
+                }`}
+              >
+                <Link className="nav-link" to="/feedback">
+                  Feedback
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
