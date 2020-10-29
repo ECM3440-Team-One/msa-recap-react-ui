@@ -14,7 +14,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { withStyles } from '@material-ui/core';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { blue } from '@material-ui/core/colors';
 
@@ -62,9 +62,7 @@ function Home() {
 
   const [recording, setRecording] = useState(false);
 
-  const [recorded, setRecorded] = useState(false);
-
-  const [edited, setEdited] = useState(false);
+  const [expanded, setExpanded] = useState('panel1')
 
   //setDisabled({enable:false,start:true,pause:true,end:true,upload:true,download:true});
 
@@ -156,11 +154,11 @@ function Home() {
   let completeRecording = () => {
     upload();
     setRecording(false);
-    setRecorded(true);
+    setExpanded('panel2');
   }
 
   let completeEditing = () => {
-    setEdited(true);
+    setExpanded('panel3');
   }
 
   let upload = () => {
@@ -176,14 +174,17 @@ function Home() {
         console.warn("Upload message", m);
       });
     }
+  }
 
+  const handleChange = (e:any) => {
+    console.log(e);
+    setExpanded(e)
   }
 
   return (
-
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Accordion defaultExpanded={true} expanded={!recorded}>
+        <Accordion expanded={expanded==='panel1'} onChange={() => handleChange('panel1')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -199,9 +200,9 @@ function Home() {
             <br />
             <div>
               <ButtonGroup variant="contained" color="primary">
-                <Button id="start" disabled={disabled.start} onClick={startRecording}><Tooltip title="Start Recording" aria-label="Start Recording" arrow><FiberManualRecordIcon /></Tooltip></Button>
-                <Button id="pause" disabled={disabled.pause} onClick={pauseRecording}><Tooltip title="Pause Recording" aria-label="Pause Recording" arrow><PauseIcon /></Tooltip></Button>
-                <Button id="endRecording" disabled={disabled.end} onClick={endRecording}><Tooltip title="Stop Recording" aria-label="Stop Recording" arrow><StopIcon /></Tooltip></Button>
+              <Tooltip title="Start Recording" aria-label="Start Recording" arrow><Button id="start" disabled={disabled.start} onClick={startRecording}><FiberManualRecordIcon /></Button></Tooltip>
+              <Tooltip title="Pause Recording" aria-label="Pause Recording" arrow><Button id="pause" disabled={disabled.pause} onClick={pauseRecording}><PauseIcon /></Button></Tooltip>
+              <Tooltip title="Stop Recording" aria-label="Stop Recording" arrow><Button id="endRecording" disabled={disabled.end} onClick={endRecording}><StopIcon /></Button></Tooltip>
               </ButtonGroup>
             </div>
             <br />
@@ -213,7 +214,7 @@ function Home() {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion expanded={recorded && !edited}>
+        <Accordion expanded={expanded==='panel2'} onChange={() => handleChange('panel2')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -230,7 +231,7 @@ function Home() {
         {/* <video controls muted id="video" autoPlay></video>
       <br></br> */}
 
-        <Accordion expanded={edited}>
+        <Accordion expanded={expanded==='panel3'} onChange={() => handleChange('panel3')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel3a-content"
@@ -251,7 +252,6 @@ function Home() {
         </Accordion>
       </div >
     </ThemeProvider>
-
   );
 }
 
