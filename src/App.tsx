@@ -11,7 +11,7 @@ function App() {
       <Switch>
           <Route path="/" exact component={() => <Home />} />
           <Route path="/about" exact component={() => <About />} />
-          <Route path="/:slug" exact component={() => <Viewer />} />
+          <Route path="/viewer/:slug" exact component={() => <Viewer />} />
       </Switch> 
     </Router>
   );
