@@ -176,15 +176,14 @@ function Home() {
     }
   }
 
-  const handleChange = (e:any) => {
-    console.log(e);
-    setExpanded(e)
+  const handleChange = (e: any) => {
+    setExpanded(e === expanded ? '' : e);
   }
 
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Accordion expanded={expanded==='panel1'} onChange={() => handleChange('panel1')}>
+        <Accordion expanded={expanded === 'panel1'} onChange={() => handleChange('panel1')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -200,9 +199,9 @@ function Home() {
             <br />
             <div>
               <ButtonGroup variant="contained" color="primary">
-              <Tooltip title="Start Recording" aria-label="Start Recording" arrow><Button id="start" disabled={disabled.start} onClick={startRecording}><FiberManualRecordIcon /></Button></Tooltip>
-              <Tooltip title="Pause Recording" aria-label="Pause Recording" arrow><Button id="pause" disabled={disabled.pause} onClick={pauseRecording}><PauseIcon /></Button></Tooltip>
-              <Tooltip title="Stop Recording" aria-label="Stop Recording" arrow><Button id="endRecording" disabled={disabled.end} onClick={endRecording}><StopIcon /></Button></Tooltip>
+                <Tooltip title="Start Recording" aria-label="Start Recording" arrow><Button id="start" disabled={disabled.start} onClick={startRecording}><FiberManualRecordIcon /></Button></Tooltip>
+                <Tooltip title="Pause Recording" aria-label="Pause Recording" arrow><Button id="pause" disabled={disabled.pause} onClick={pauseRecording}><PauseIcon /></Button></Tooltip>
+                <Tooltip title="Stop Recording" aria-label="Stop Recording" arrow><Button id="endRecording" disabled={disabled.end} onClick={endRecording}><StopIcon /></Button></Tooltip>
               </ButtonGroup>
             </div>
             <br />
@@ -214,7 +213,7 @@ function Home() {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion expanded={expanded==='panel2'} onChange={() => handleChange('panel2')}>
+        <Accordion expanded={expanded === 'panel2'} onChange={() => handleChange('panel2')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel2a-content"
@@ -223,7 +222,7 @@ function Home() {
             <Typography>Edit</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Viewer project={project}/>
+            <Viewer project={project} />
             <Button variant="contained" color="primary" id="completeEditing" onClick={completeEditing}>Finished Editing</Button>
           </AccordionDetails>
         </Accordion>
@@ -231,7 +230,7 @@ function Home() {
         {/* <video controls muted id="video" autoPlay></video>
       <br></br> */}
 
-        <Accordion expanded={expanded==='panel3'} onChange={() => handleChange('panel3')}>
+        <Accordion expanded={expanded === 'panel3'} onChange={() => handleChange('panel3')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel3a-content"
@@ -241,7 +240,7 @@ function Home() {
           </AccordionSummary>
           <AccordionDetails>
             <div>
-              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename(evt.target.value) } } />
+              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename(evt.target.value) }} />
             </div>
             <br />
             <div>
