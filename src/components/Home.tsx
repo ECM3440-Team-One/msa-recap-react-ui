@@ -151,16 +151,6 @@ function Home() {
     setDisabled({ enable: false, start: true, pause: true, end: true, complete: false, upload: false, download: false });
   }
 
-  let completeRecording = () => {
-    upload();
-    setRecording(false);
-    setExpanded('panel2');
-  }
-
-  let completeEditing = () => {
-    setExpanded('panel3');
-  }
-
   let upload = () => {
 
     if (project) {
@@ -176,8 +166,27 @@ function Home() {
     }
   }
 
-  const handleChange = (e: any) => {
-    setExpanded(e === expanded ? '' : e);
+  let getRecording = async(project:string) => {
+    let response = await fetch("https://msarecap.blob.core.windows.net/recordings/" + project + ".webm", {
+      method: 'GET'
+    });
+    if (response.ok) {
+      setRecording(false);
+      setExpanded('panel2');
+    }
+  }
+
+  let completeRecording = () => {
+    upload();
+    getRecording(project);
+  }
+
+  let completeEditing = () => {
+    setExpanded('panel3');
+  }
+
+  let handleChange = (evt: any) => {
+    setExpanded(evt === expanded ? '' : evt);
   }
 
   return (
@@ -186,8 +195,8 @@ function Home() {
         <Accordion expanded={expanded === 'panel1'} onChange={() => handleChange('panel1')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls="panel1-content"
+            id="panel1-header"
           >
             <Typography>Record</Typography>
           </AccordionSummary>
@@ -199,9 +208,9 @@ function Home() {
             <br />
             <div>
               <ButtonGroup variant="contained" color="primary">
-                <Tooltip title="Start Recording" aria-label="Start Recording" arrow><Button id="start" disabled={disabled.start} onClick={startRecording}><FiberManualRecordIcon /></Button></Tooltip>
-                <Tooltip title="Pause Recording" aria-label="Pause Recording" arrow><Button id="pause" disabled={disabled.pause} onClick={pauseRecording}><PauseIcon /></Button></Tooltip>
-                <Tooltip title="Stop Recording" aria-label="Stop Recording" arrow><Button id="endRecording" disabled={disabled.end} onClick={endRecording}><StopIcon /></Button></Tooltip>
+                <Button id="start" disabled={disabled.start} onClick={startRecording}><Tooltip title="Start Recording" aria-label="Start Recording" arrow><FiberManualRecordIcon /></Tooltip></Button>
+                <Button id="pause" disabled={disabled.pause} onClick={pauseRecording}><Tooltip title="Pause Recording" aria-label="Pause Recording" arrow><PauseIcon /></Tooltip></Button>
+                <Button id="endRecording" disabled={disabled.end} onClick={endRecording}><Tooltip title="Stop Recording" aria-label="Stop Recording" arrow><StopIcon /></Tooltip></Button>
               </ButtonGroup>
             </div>
             <br />
@@ -216,8 +225,8 @@ function Home() {
         <Accordion expanded={expanded === 'panel2'} onChange={() => handleChange('panel2')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
+            aria-controls="panel2-content"
+            id="panel2-header"
           >
             <Typography>Edit</Typography>
           </AccordionSummary>
@@ -233,8 +242,8 @@ function Home() {
         <Accordion expanded={expanded === 'panel3'} onChange={() => handleChange('panel3')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel3a-content"
-            id="pane31a-header"
+            aria-controls="panel3-content"
+            id="panel3-header"
           >
             <Typography>Upload</Typography>
           </AccordionSummary>

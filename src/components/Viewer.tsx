@@ -43,7 +43,7 @@ function Viewer(props:any) {
         </p>
             <p>
               <video controls id="video" preload="metadata" crossOrigin="*" autoPlay>
-                <source src={"https://saunby.blob.core.windows.net/recordings/" + project + ".webm"}
+                <source src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".webm"}
                   type="video/webm" />
                 <track label="English" kind="subtitles" srcLang="en" src={"https://saunby.blob.core.windows.net/recordings/" + project + ".vtt"} default>
                 </track>
