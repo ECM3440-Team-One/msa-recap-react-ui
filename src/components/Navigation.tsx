@@ -32,7 +32,22 @@ function Navigation(props: any) {
           <Typography variant="h6" className={classes.title}>
             Recap
     </Typography>
-          <Button color="inherit">Feedback</Button>
+          <Button color="inherit" href="/feedback">Feedback</Button>
+          {/* className={`nav-item  ${
+                  props.location.pathname === "/about" ? "active" : ""
+                }`}
+              >
+                <Link className="nav-link" to="/about">
+                  About
+                </Link>
+                <li
+                className={`nav-item  ${
+                  props.location.pathname === "/feedback" ? "active" : ""
+                }`}
+              >
+                <Link className="nav-link" to="/feedback">
+                  Feedback
+                </Link> */}
         </Toolbar>
       </AppBar>
     </div>
