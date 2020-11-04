@@ -14,14 +14,17 @@ function Feedback() {
         </div>
         <form id="feedback-form" method="POST">
             <div className="form-group">
-              <label>First name: *</label><br></br>
+              <label>First name:</label><br></br>
               <input type="text" name="fname" className="input" placeholder="First Name" required/>
               <br></br>
-              <label>Last name: *</label><br></br>
+              <label>Last name:</label><br></br>
               <input type="text" name="lname" className="input" placeholder="Last Name" required/>
               <br></br>
-              <label>Email: *</label><br></br>
+              <label>Email:</label><br></br>
               <input type="text" name="email" className="input" placeholder="Your Email Address" required/>
+              <br></br>
+              <label>Company:</label><br></br>
+              <input type="text" name="company" className="input" placeholder="Your Company Name"/>
             </div>
             <div className="form-group">
               <label>Your feedback: *</label><br></br>
