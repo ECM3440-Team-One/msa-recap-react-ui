@@ -32,7 +32,7 @@ function Navigation(props: any) {
           <Typography variant="h6" className={classes.title}>
             Recap
     </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit">Feedback</Button>
         </Toolbar>
       </AppBar>
     </div>

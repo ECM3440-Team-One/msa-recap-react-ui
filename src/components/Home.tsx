@@ -3,7 +3,6 @@ import { useState } from "react";
 // import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import TextField from '@material-ui/core/TextField';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
@@ -151,7 +150,7 @@ function Home() {
     setDisabled({ enable: false, start: true, pause: true, end: true, complete: false, upload: false, download: false });
   }
 
-  let upload = () => {
+  let upload = async () => {
 
     if (project) {
       console.info("Calling upload()");
@@ -166,7 +165,7 @@ function Home() {
     }
   }
 
-  let getRecording = async(project:string) => {
+  let getRecording = async (project: string) => {
     let response = await fetch("https://msarecap.blob.core.windows.net/recordings/" + project + ".webm", {
       method: 'GET'
     });
@@ -248,14 +247,10 @@ function Home() {
             <Typography>Upload</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <div>
-              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename(evt.target.value) }} />
-            </div>
-            <br />
-            <div>
-              <Button variant="contained" color="primary" id="download" onClick={download}>Download to Disk</Button><span>     </span>
-              <Button variant="contained" color="primary" id="upload">Upload to YouTube</Button>
-            </div>
+            <p>
+              <button id="download" disabled={disabled.download} onClick={download}>Download</button>
+              <input type="text" value={filename} onChange={(evt) => { setFilename(evt.target.value) }} />
+            </p>
           </AccordionDetails>
         </Accordion>
       </div >
