@@ -1,38 +1,27 @@
 import React from "react";
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 function Feedback() {
   return (
     <div className="feedback">
       <div className="container">
-        <div className="row align-items-center my-5">
-          <div className="col-lg-5">
             <h1 className="font-weight-light">Feedback</h1>
             <p>
               Please provide your feedback using the form below.
               </p>
-          </div>
-        </div>
-        <form id="feedback-form" method="POST">
-            <div className="form-group">
-              <label>First name:</label><br></br>
-              <input type="text" name="fname" className="input" placeholder="First Name" required/>
-              <br></br>
-              <label>Last name:</label><br></br>
-              <input type="text" name="lname" className="input" placeholder="Last Name" required/>
-              <br></br>
-              <label>Email:</label><br></br>
-              <input type="text" name="email" className="input" placeholder="Your Email Address" required/>
-              <br></br>
-              <label>Company:</label><br></br>
-              <input type="text" name="company" className="input" placeholder="Your Company Name"/>
-              <br></br>
-              <label>Feedback Comments: *</label><br></br>
-              <textarea className="textarea" name="message" placeholder="Comments" required></textarea>
-            </div>
-            <div className="form-group">
-              <input type="submit" value="Submit" />
-            </div>
+          
+
+        <form className='feedback' noValidate autoComplete="off">
+          <TextField id="fname" required label="First name" variant="outlined" /><br/><br/>
+          <TextField id="lname" required label="Last name" variant="outlined" /><br/><br/>
+          <TextField id="email" required label="Email" variant="outlined" /><br/><br/>
+          <TextField id="company" required label="Company" variant="outlined" /><br/><br/>
+          <TextField id="message" required multiline label="Feedback Comments" variant="outlined" /><br/><br/>
           </form>
+
+          <Button color="primary" variant="contained" id="submit">Submit</Button>
+  
       </div>
     </div>
   );
