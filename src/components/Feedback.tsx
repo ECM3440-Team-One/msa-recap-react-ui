@@ -27,7 +27,7 @@ function Feedback() {
               <input type="text" name="company" className="input" placeholder="Your Company Name"/>
             </div>
             <div className="form-group">
-              <label>Your feedback: *</label><br></br>
+              <label>Feedback Comments: *</label><br></br>
               <textarea className="textarea" name="message" placeholder="Comments" required></textarea>
             </div>
             <div className="form-group">
