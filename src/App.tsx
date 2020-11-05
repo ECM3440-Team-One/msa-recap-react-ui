@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navigation, About, Home, Feedback, Viewer } from './components';
+import { Navigation, About, Home, Feedback } from './components';
 
 function App() {
 
@@ -12,7 +12,6 @@ function App() {
           <Route path="/" exact component={() => <Home />} />
           <Route path="/feedback" exact component={() => <Feedback />} />
           <Route path="/about" exact component={() => <About />} />
-          {/* <Route path="/viewer/:slug" exact component={() => <Viewer />} /> */}
       </Switch> 
     </Router>
   );

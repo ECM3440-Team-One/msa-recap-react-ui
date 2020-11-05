@@ -1,8 +1,7 @@
-import React from "react";
-import { useState } from "react";
-// import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import TextField from '@material-ui/core/TextField';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import PauseIcon from '@material-ui/icons/Pause';
 import StopIcon from '@material-ui/icons/Stop';
@@ -44,9 +43,6 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: blue[900],
-    },
-    secondary: {
-      main: '#11cb5f',
     }
   }
 });
@@ -59,11 +55,7 @@ function Home() {
 
   const [project, setProject] = useState('');
 
-  const [recording, setRecording] = useState(false);
-
   const [expanded, setExpanded] = useState('panel1')
-
-  //setDisabled({enable:false,start:true,pause:true,end:true,upload:true,download:true});
 
   function download() {
     downloadScreenCapture(filename);
@@ -127,7 +119,6 @@ function Home() {
     enableMicrophone();
     enableScreenCap();
     setDisabled({ enable: true, start: false, pause: true, end: true, complete: true, upload: true, download: true });
-    setRecording(true);
   }
 
   let startRecording = () => {
@@ -147,7 +138,7 @@ function Home() {
     stopScreenCapture();
     disableMicrophone();
     disableScreenCap();
-    setDisabled({ enable: false, start: true, pause: true, end: true, complete: false, upload: false, download: false });
+    setDisabled({ enable: true, start: true, pause: true, end: true, complete: false, upload: true, download: true });
   }
 
   let upload = async () => {
@@ -170,7 +161,6 @@ function Home() {
       method: 'GET'
     });
     if (response.ok) {
-      setRecording(false);
       setExpanded('panel2');
     }
   }
@@ -178,6 +168,7 @@ function Home() {
   let completeRecording = () => {
     upload();
     getRecording(project);
+    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false });
   }
 
   let completeEditing = () => {
@@ -197,12 +188,12 @@ function Home() {
             aria-controls="panel1-content"
             id="panel1-header"
           >
-            <Typography>Record</Typography>
+            <Typography variant="h6">Record</Typography>
           </AccordionSummary>
           <GlobalCss />
           <AccordionDetails>
             <div>
-              <Button variant="contained" color="primary" id="enableRecording" disabled={recording} onClick={enableRecording}>Enable Recording</Button>
+              <Button variant="contained" color="primary" id="enableRecording" disabled={disabled.enable} onClick={enableRecording}>Enable Recording</Button>
             </div>
             <br />
             <div>
@@ -213,7 +204,6 @@ function Home() {
               </ButtonGroup>
             </div>
             <br />
-            {/* <Link to={"/viewer/" + this.state.project}>{}</Link> */}
             <div>
               <Button variant="contained" color="primary" id="finishRecording" disabled={disabled.complete} onClick={completeRecording}>Finished Recording</Button>
             </div>
@@ -227,7 +217,7 @@ function Home() {
             aria-controls="panel2-content"
             id="panel2-header"
           >
-            <Typography>Edit</Typography>
+            <Typography variant="h6">Edit</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Viewer project={project} />
@@ -235,25 +225,26 @@ function Home() {
           </AccordionDetails>
         </Accordion>
 
-        {/* <video controls muted id="video" autoPlay></video>
-      <br></br> */}
-
         <Accordion expanded={expanded === 'panel3'} onChange={() => handleChange('panel3')}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel3-content"
             id="panel3-header"
           >
-            <Typography>Upload</Typography>
+            <Typography variant="h6">Upload</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <p>
-              <button id="download" disabled={disabled.download} onClick={download}>Download</button>
-              <input type="text" value={filename} onChange={(evt) => { setFilename(evt.target.value) }} />
-            </p>
+            <div>
+              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename(evt.target.value) }} />
+            </div>
+            <br />
+            <div>
+              <Button variant="contained" color="primary" id="download" onClick={download}>Download to Disk</Button><span>     </span>
+              <Button variant="contained" color="primary" id="upload">Upload to YouTube</Button>
+            </div>
           </AccordionDetails>
         </Accordion>
-      </div >
+      </div>
     </ThemeProvider>
   );
 }

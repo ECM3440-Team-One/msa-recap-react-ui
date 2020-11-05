@@ -1,17 +1,13 @@
 import React from "react";
+import Typography from '@material-ui/core/Typography';
 
 function About() {
   return (
     <div className="about">
       <div className="container">
-        <div className="row align-items-center my-5">
-          <div className="col-lg-5">
-            <h1 className="font-weight-light">About</h1>
-            <p>
-              A Microservices example project using Azure functions.
-            </p>
-          </div>
-        </div>
+        <br/>
+      <Typography variant="h3">About</Typography><br/>
+      <Typography variant="h6">A Microservices example project using Azure functions.</Typography>
       </div>
     </div>
   );
