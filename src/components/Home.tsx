@@ -164,7 +164,7 @@ function Home() {
       uploadBlob(vblob, project, "webm", false).then((m) => {
         message = message + m;
       });
-      return message;
+      return 'Upload complete';
     }
   }
 
