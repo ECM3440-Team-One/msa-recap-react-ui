@@ -182,7 +182,7 @@ function Home() {
   let completeRecording = () => {
     setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true });
     upload();
-    new Promise(r => setTimeout(r, 5000)).then(() => {
+    new Promise(r => setTimeout(r, 2000)).then(() => {
       getRecording(project);
       setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false });
     });

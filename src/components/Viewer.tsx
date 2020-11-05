@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 // See https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Adding_captions_and_subtitles_to_HTML5_video
 // 
 function Viewer(props:any) {
 
   let project = props.project;
-
-  const [showRecording, setShowRecording] = useState(false);
 
   /** TODO: uncomment the code below if reinstating Create Transcript button
       in future iterations */
@@ -35,13 +33,11 @@ function Viewer(props:any) {
   //   return await response.text();
   // }
 
-
   useEffect(() => {
     fetch("https://msarecap.blob.core.windows.net/recordings/" + project + ".webm", {
       method: 'GET'
+    });
     })
-     .then(() => setShowRecording(true)
-    )})
 
   return (
     <div className="viewer">
@@ -52,14 +48,14 @@ function Viewer(props:any) {
         {/* <button id="transcript" onClick={createTranscript}>Create transcript</button> */}
         </p>
             <p>
-              {showRecording && <video controls id="video" preload="metadata" crossOrigin="*" autoPlay>
+              <video controls id="video" preload="metadata" crossOrigin="*" autoPlay>
                 {/* TODO: Update src x2 below to match chosen storage option */}
                 <source src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".webm"}
                   type="video/webm" />
                 <track label="English" kind="subtitles" srcLang="en" src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".vtt"} default>
                 </track>
 
-              </video>}
+              </video>
             </p>
           </div>
         </div>
