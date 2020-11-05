@@ -11,7 +11,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
@@ -125,6 +125,7 @@ function Home() {
 
   let enableRecording = () => {
     projectName().then((name) => {
+      console.log(name);
       setProject(name);
     }).catch((err) => { console.warn(err) });
     enableMicrophone();
@@ -141,7 +142,7 @@ function Home() {
   let pauseRecording = () => {
     pauseAudioCapture();
     pauseScreenCapture();
-    setDisabled({ enable: true, start: false, pause: true, end: false, complete: true, upload: true, download: true, spinner: false});
+    setDisabled({ enable: true, start: false, pause: true, end: false, complete: true, upload: true, download: true, spinner: false });
   }
 
   let endRecording = () => {
@@ -179,11 +180,11 @@ function Home() {
   }
   // Handles recording upload, getting blobs for playback and resetting Record section buttons 
   let completeRecording = () => {
-    // setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true });
+    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true });
     upload();
     new Promise(r => setTimeout(r, 5000)).then(() => {
-    getRecording(project);
-    // setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false });
+      getRecording(project);
+      setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false });
     });
   }
 
@@ -226,8 +227,8 @@ function Home() {
               <Button variant="contained" color="primary" id="finishRecording" disabled={disabled.complete} onClick={completeRecording}>Finished Recording</Button>
             </div>
             <br />
-            {/* <div>{disabled.spinner && <CircularProgress />}</div>
-            <br /> */}
+            {disabled.spinner && <CircularProgress />}
+            <br />
           </AccordionDetails>
         </Accordion>
 
@@ -255,7 +256,7 @@ function Home() {
           </AccordionSummary>
           <AccordionDetails>
             <div>
-              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename({name: evt.target.value, disabled: false}) }} />
+              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename({ name: evt.target.value, disabled: false }) }} />
             </div>
             <br />
             <div>
