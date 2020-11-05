@@ -124,10 +124,6 @@ function Home() {
   */
 
   let enableRecording = () => {
-    projectName().then((name) => {
-      console.log(name);
-      setProject(name);
-    }).catch((err) => { console.warn(err) });
     enableMicrophone();
     enableScreenCap();
     setDisabled({ enable: true, start: false, pause: true, end: true, complete: true, upload: true, download: true, spinner: false });
@@ -154,7 +150,9 @@ function Home() {
   }
 
   let upload = async () => {
-
+    projectName().then((name) => {
+      setProject(name);
+    }).catch((err) => { console.warn(err) });
     if (project) {
       console.info("Calling upload()");
       let ablob: Blob = getAudioCaptureBlob();
