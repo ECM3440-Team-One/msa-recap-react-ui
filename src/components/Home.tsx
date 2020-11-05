@@ -11,6 +11,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function Home() {
   const classes = useStyles();
 
-  const [disabled, setDisabled] = useState({ enable: false, start: true, pause: true, end: true, complete: true, upload: true, download: true });
+  const [disabled, setDisabled] = useState({ enable: false, start: true, pause: true, end: true, complete: true, upload: true, download: true, spinner: false });
 
   const [filename, setFilename] = useState({ name: '', disabled: true });
 
@@ -124,23 +125,24 @@ function Home() {
 
   let enableRecording = () => {
     projectName().then((name) => {
+      console.log(name);
       setProject(name);
     }).catch((err) => { console.warn(err) });
     enableMicrophone();
     enableScreenCap();
-    setDisabled({ enable: true, start: false, pause: true, end: true, complete: true, upload: true, download: true });
+    setDisabled({ enable: true, start: false, pause: true, end: true, complete: true, upload: true, download: true, spinner: false });
   }
 
   let startRecording = () => {
     startAudioCapture();
     startScreenCapture();
-    setDisabled({ enable: true, start: true, pause: false, end: false, complete: true, upload: true, download: true });
+    setDisabled({ enable: true, start: true, pause: false, end: false, complete: true, upload: true, download: true, spinner: false });
   }
 
   let pauseRecording = () => {
     pauseAudioCapture();
     pauseScreenCapture();
-    setDisabled({ enable: true, start: false, pause: true, end: false, complete: true, upload: true, download: true });
+    setDisabled({ enable: true, start: false, pause: true, end: false, complete: true, upload: true, download: true, spinner: false});
   }
 
   let endRecording = () => {
@@ -148,23 +150,21 @@ function Home() {
     stopScreenCapture();
     disableMicrophone();
     disableScreenCap();
-    setDisabled({ enable: true, start: true, pause: true, end: true, complete: false, upload: true, download: true });
+    setDisabled({ enable: true, start: true, pause: true, end: true, complete: false, upload: true, download: true, spinner: false });
   }
 
   let upload = async () => {
 
     if (project) {
       console.info("Calling upload()");
-      let message:string;
       let ablob: Blob = getAudioCaptureBlob();
       uploadBlob(ablob, project, "ogg", true).then((m) => {
-        message = m;
+        console.warn("Upload message", m);
       });
       let vblob: Blob = getCaptureBlob();
       uploadBlob(vblob, project, "webm", false).then((m) => {
-        message = message + m;
+        console.warn("Upload message", m);
       });
-      return 'Upload complete';
     }
   }
 
@@ -180,11 +180,12 @@ function Home() {
   }
   // Handles recording upload, getting blobs for playback and resetting Record section buttons 
   let completeRecording = () => {
-    upload().then((m) => {;
-      console.warn(m)
-      getRecording(project);
-      setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false });
-  })
+    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true });
+    upload();
+    new Promise(r => setTimeout(r, 5000)).then(() => {
+    getRecording(project);
+    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false });
+    });
   }
 
   // Opens Upload panel after clicking Finished Editing button
