@@ -125,7 +125,6 @@ function Home() {
 
   let enableRecording = () => {
     projectName().then((name) => {
-      console.log(name);
       setProject(name);
     }).catch((err) => { console.warn(err) });
     enableMicrophone();
@@ -180,11 +179,11 @@ function Home() {
   }
   // Handles recording upload, getting blobs for playback and resetting Record section buttons 
   let completeRecording = () => {
-    setDisabled({ enable: false, start: true, pause: true, end: true, complete: false, upload: false, download: false, spinner: true });
+    // setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true });
     upload();
     new Promise(r => setTimeout(r, 5000)).then(() => {
     getRecording(project);
-    setDisabled({ enable: false, start: true, pause: true, end: true, complete: false, upload: false, download: false, spinner: false });
+    // setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false });
     });
   }
 
@@ -227,8 +226,8 @@ function Home() {
               <Button variant="contained" color="primary" id="finishRecording" disabled={disabled.complete} onClick={completeRecording}>Finished Recording</Button>
             </div>
             <br />
-            <div>{disabled.spinner && <CircularProgress />}</div>
-            <br />
+            {/* <div>{disabled.spinner && <CircularProgress />}</div>
+            <br /> */}
           </AccordionDetails>
         </Accordion>
 
@@ -241,7 +240,7 @@ function Home() {
             <Typography variant="h6">Edit</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Viewer project={project} display={disabled.complete} />
+            <Viewer project={project} />
             <Button variant="contained" color="primary" id="completeEditing" onClick={completeEditing}>Finished Editing</Button>
           </AccordionDetails>
         </Accordion>
