@@ -151,7 +151,7 @@ function Home() {
     setDisabled({ enable: true, start: true, pause: true, end: true, complete: false, upload: true, download: true });
   }
 
-  let upload = async () => {
+  let upload = () => {
 
     if (project) {
       console.info("Calling upload()");
