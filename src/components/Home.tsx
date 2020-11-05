@@ -151,18 +151,20 @@ function Home() {
     setDisabled({ enable: true, start: true, pause: true, end: true, complete: false, upload: true, download: true });
   }
 
-  let upload = () => {
+  let upload = async () => {
 
     if (project) {
       console.info("Calling upload()");
+      let message:string;
       let ablob: Blob = getAudioCaptureBlob();
       uploadBlob(ablob, project, "ogg", true).then((m) => {
-        console.warn("Upload message", m);
+        message = m;
       });
       let vblob: Blob = getCaptureBlob();
       uploadBlob(vblob, project, "webm", false).then((m) => {
-        console.warn("Upload message", m);
+        message = message + m;
       });
+      return message;
     }
   }
 
@@ -178,9 +180,11 @@ function Home() {
   }
   // Handles recording upload, getting blobs for playback and resetting Record section buttons 
   let completeRecording = () => {
-    upload();
-    getRecording(project);
-    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false });
+    upload().then((m) => {;
+      console.warn(m)
+      getRecording(project);
+      setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false });
+  })
   }
 
   // Opens Upload panel after clicking Finished Editing button
