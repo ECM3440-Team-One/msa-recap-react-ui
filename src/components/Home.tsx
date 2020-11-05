@@ -12,6 +12,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { withStyles } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { blue } from '@material-ui/core/colors';
@@ -39,7 +40,7 @@ const GlobalCss = withStyles({
   }
 })(() => null);
 
-const theme = createMuiTheme({
+const homeTheme = createMuiTheme({
   palette: {
     primary: {
       main: blue[900],
@@ -47,19 +48,28 @@ const theme = createMuiTheme({
   }
 });
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    uploadButton: {
+      margin: '0 0.5em 1em 0.5em'
+    }
+  }),
+);
+
 function Home() {
+  const classes = useStyles();
 
   const [disabled, setDisabled] = useState({ enable: false, start: true, pause: true, end: true, complete: true, upload: true, download: true });
 
-  const [filename, setFilename] = useState("recording");
+  const [filename, setFilename] = useState({ name: '', disabled: true });
 
   const [project, setProject] = useState('');
 
-  const [expanded, setExpanded] = useState('panel1')
+  const [expanded, setExpanded] = useState('panel1');
 
   function download() {
-    downloadScreenCapture(filename);
-    downloadAudioCapture(filename);
+    downloadScreenCapture(filename.name);
+    downloadAudioCapture(filename.name);
   }
 
   // let log = '';
@@ -156,6 +166,8 @@ function Home() {
     }
   }
 
+  /** Waits until recording has successfully uploaded to storage option before opening Edit accordion and displaying recording for playback
+      TODO: URL of storage option will need to be updated here in future iterations */
   let getRecording = async (project: string) => {
     let response = await fetch("https://msarecap.blob.core.windows.net/recordings/" + project + ".webm", {
       method: 'GET'
@@ -164,23 +176,26 @@ function Home() {
       setExpanded('panel2');
     }
   }
-
+  // Handles recording upload, getting blobs for playback and resetting Record section buttons 
   let completeRecording = () => {
     upload();
     getRecording(project);
     setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false });
   }
 
+  // Opens Upload panel after clicking Finished Editing button
   let completeEditing = () => {
     setExpanded('panel3');
   }
 
+  // Allows accordions to open automatically on button clicks, or be opened manually by users
   let handleChange = (evt: any) => {
     setExpanded(evt === expanded ? '' : evt);
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={homeTheme}>
+      <GlobalCss />
       <div className="App">
         <Accordion expanded={expanded === 'panel1'} onChange={() => handleChange('panel1')}>
           <AccordionSummary
@@ -190,7 +205,6 @@ function Home() {
           >
             <Typography variant="h6">Record</Typography>
           </AccordionSummary>
-          <GlobalCss />
           <AccordionDetails>
             <div>
               <Button variant="contained" color="primary" id="enableRecording" disabled={disabled.enable} onClick={enableRecording}>Enable Recording</Button>
@@ -235,12 +249,12 @@ function Home() {
           </AccordionSummary>
           <AccordionDetails>
             <div>
-              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename(evt.target.value) }} />
+              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename({name: evt.target.value, disabled: false}) }} />
             </div>
             <br />
             <div>
-              <Button variant="contained" color="primary" id="download" onClick={download}>Download to Disk</Button><span>     </span>
-              <Button variant="contained" color="primary" id="upload">Upload to YouTube</Button>
+              <Button variant="contained" color="primary" id="download" className={classes.uploadButton} onClick={download} disabled={filename.disabled}>Download to Disk</Button>
+              <Button variant="contained" color="primary" id="upload" className={classes.uploadButton} disabled>Upload to YouTube</Button>
             </div>
           </AccordionDetails>
         </Accordion>

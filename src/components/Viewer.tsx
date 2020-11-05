@@ -6,6 +6,9 @@ function Viewer(props:any) {
 
   let project = props.project;
 
+  /** TODO: uncomment the code below if reinstating Create Transcript button
+      in future iterations */
+
   // let data = {
   //   "Insights": {
   //     "FileName": project + ".ogg_insights.json"
@@ -40,9 +43,10 @@ function Viewer(props:any) {
         </p>
             <p>
               <video controls id="video" preload="metadata" crossOrigin="*" autoPlay>
+                {/* TODO: Update src x2 below to match chosen storage option */}
                 <source src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".webm"}
                   type="video/webm" />
-                <track label="English" kind="subtitles" srcLang="en" src={"https://saunby.blob.core.windows.net/recordings/" + project + ".vtt"} default>
+                <track label="English" kind="subtitles" srcLang="en" src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".vtt"} default>
                 </track>
 
               </video>

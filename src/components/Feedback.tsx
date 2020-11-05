@@ -42,7 +42,7 @@ function Feedback() {
           <TextField id="email" required label="Email" variant="outlined" /><br /><br />
           <TextField id="company" required label="Company" variant="outlined" /><br /><br />
           <TextField id="message" required multiline rows={4} label="Feedback comments" variant="outlined" /><br /><br />
-          <Button color="primary" variant="contained" id="submit">Submit</Button>
+          <Button color="primary" variant="contained" id="submit" disabled>Submit</Button>
         </form>
         <br/>
 
