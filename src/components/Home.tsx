@@ -227,6 +227,8 @@ function Home() {
               <Button variant="contained" color="primary" id="finishRecording" disabled={disabled.complete} onClick={completeRecording}>Finished Recording</Button>
             </div>
             <br />
+            <div>{disabled.spinner && <CircularProgress />}</div>
+            <br />
           </AccordionDetails>
         </Accordion>
 
