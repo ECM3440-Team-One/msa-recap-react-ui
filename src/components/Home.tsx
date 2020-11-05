@@ -180,11 +180,11 @@ function Home() {
   }
   // Handles recording upload, getting blobs for playback and resetting Record section buttons 
   let completeRecording = () => {
-    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true });
+    setDisabled({ enable: false, start: true, pause: true, end: true, complete: false, upload: false, download: false, spinner: true });
     upload();
     new Promise(r => setTimeout(r, 5000)).then(() => {
     getRecording(project);
-    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false });
+    setDisabled({ enable: false, start: true, pause: true, end: true, complete: false, upload: false, download: false, spinner: false });
     });
   }
 
@@ -241,7 +241,7 @@ function Home() {
             <Typography variant="h6">Edit</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Viewer project={project} />
+            <Viewer project={project} display={disabled.complete} />
             <Button variant="contained" color="primary" id="completeEditing" onClick={completeEditing}>Finished Editing</Button>
           </AccordionDetails>
         </Accordion>

@@ -42,14 +42,14 @@ function Viewer(props:any) {
         {/* <button id="transcript" onClick={createTranscript}>Create transcript</button> */}
         </p>
             <p>
-              <video controls id="video" preload="metadata" crossOrigin="*" autoPlay>
+              {props.display && <video controls id="video" preload="metadata" crossOrigin="*" autoPlay>
                 {/* TODO: Update src x2 below to match chosen storage option */}
                 <source src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".webm"}
                   type="video/webm" />
                 <track label="English" kind="subtitles" srcLang="en" src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".vtt"} default>
                 </track>
 
-              </video>
+              </video>}
             </p>
           </div>
         </div>
