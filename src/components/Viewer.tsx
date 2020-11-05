@@ -41,7 +41,7 @@ function Viewer(props:any) {
       method: 'GET'
     })
      .then(() => setShowRecording(true)
-    ), []})
+    )})
 
   return (
     <div className="viewer">
