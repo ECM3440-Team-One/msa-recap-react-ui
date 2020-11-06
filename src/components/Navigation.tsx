@@ -49,6 +49,7 @@ function Navigation() {
         <Toolbar>
           <Button color="primary" variant="text" disableElevation disableRipple className={classes.menuButton} href="/" style={{ fontSize: '28px'}}>Recap</Button>
           <Button color="primary" variant="text" disableElevation className={classes.titleSpacer}></Button>
+          <Button color="primary" variant="text" disableElevation className={classes.menuButton} href="/" style={{ fontSize: '16px'}}>Create</Button>
           <Button color="primary" variant="text" disableElevation className={classes.menuButton} href="/about" style={{ fontSize: '16px'}}>About</Button>
           <Button color="primary"  variant="text" disableElevation className={classes.menuButton} href="/feedback" style={{ fontSize: '16px'}}>Feedback</Button>
 
