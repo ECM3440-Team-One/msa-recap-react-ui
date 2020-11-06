@@ -9,9 +9,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function Home() {
   const classes = useStyles();
 
-  const [disabled, setDisabled] = useState({ enable: false, start: true, pause: true, end: true, complete: true, upload: true, download: true, spinner: false });
+  const [disabled, setDisabled] = useState({ enable: false, start: true, pause: true, end: true, complete: true, upload: true, download: true, spinner: false, viewer: false });
 
   const [filename, setFilename] = useState({ name: '', disabled: true });
 
@@ -125,24 +125,23 @@ function Home() {
 
   let enableRecording = () => {
     projectName().then((name) => {
-      console.log(name);
       setProject(name);
     }).catch((err) => { console.warn(err) });
     enableMicrophone();
     enableScreenCap();
-    setDisabled({ enable: true, start: false, pause: true, end: true, complete: true, upload: true, download: true, spinner: false });
+    setDisabled({ enable: true, start: false, pause: true, end: true, complete: true, upload: true, download: true, spinner: false, viewer: false });
   }
 
   let startRecording = () => {
     startAudioCapture();
     startScreenCapture();
-    setDisabled({ enable: true, start: true, pause: false, end: false, complete: true, upload: true, download: true, spinner: false });
+    setDisabled({ enable: true, start: true, pause: false, end: false, complete: true, upload: true, download: true, spinner: false, viewer: false });
   }
 
   let pauseRecording = () => {
     pauseAudioCapture();
     pauseScreenCapture();
-    setDisabled({ enable: true, start: false, pause: true, end: false, complete: true, upload: true, download: true, spinner: false});
+    setDisabled({ enable: true, start: false, pause: true, end: false, complete: true, upload: true, download: true, spinner: false, viewer: false });
   }
 
   let endRecording = () => {
@@ -150,7 +149,7 @@ function Home() {
     stopScreenCapture();
     disableMicrophone();
     disableScreenCap();
-    setDisabled({ enable: true, start: true, pause: true, end: true, complete: false, upload: true, download: true, spinner: false });
+    setDisabled({ enable: true, start: true, pause: true, end: true, complete: false, upload: true, download: true, spinner: false, viewer: false });
   }
 
   let upload = async () => {
@@ -176,16 +175,19 @@ function Home() {
     });
     if (response.ok) {
       setExpanded('panel2');
+      setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false, viewer: true });
+    }
+    else {
+      throw new Error('Recording unavailable');
     }
   }
   // Handles recording upload, getting blobs for playback and resetting Record section buttons 
   let completeRecording = () => {
-    // setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true });
+    setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: true, viewer: false });
     upload();
-    // new Promise(r => setTimeout(r, 5000)).then(() => {
-    getRecording(project);
-    // setDisabled({ enable: false, start: true, pause: true, end: true, complete: true, upload: false, download: false, spinner: false });
-    // });
+    new Promise(r => setTimeout(r, 2000)).then(() => {
+      getRecording(project);
+    });
   }
 
   // Opens Upload panel after clicking Finished Editing button
@@ -227,6 +229,7 @@ function Home() {
               <Button variant="contained" color="primary" id="finishRecording" disabled={disabled.complete} onClick={completeRecording}>Finished Recording</Button>
             </div>
             <br />
+            {disabled.spinner && <CircularProgress />}
           </AccordionDetails>
         </Accordion>
 
@@ -239,7 +242,7 @@ function Home() {
             <Typography variant="h6">Edit</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Viewer project={project} />
+            {disabled.viewer && <Viewer project={project} />}
             <Button variant="contained" color="primary" id="completeEditing" onClick={completeEditing}>Finished Editing</Button>
           </AccordionDetails>
         </Accordion>
@@ -254,7 +257,7 @@ function Home() {
           </AccordionSummary>
           <AccordionDetails>
             <div>
-              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename({name: evt.target.value, disabled: false}) }} />
+              <TextField variant="outlined" required label="Name your recording" onChange={(evt) => { setFilename({ name: evt.target.value, disabled: false }) }} />
             </div>
             <br />
             <div>

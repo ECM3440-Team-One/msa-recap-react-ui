@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // See https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery/Adding_captions_and_subtitles_to_HTML5_video
 // 
@@ -33,12 +33,6 @@ function Viewer(props:any) {
   //   return await response.text();
   // }
 
-  useEffect(() => {
-    fetch("https://msarecap.blob.core.windows.net/recordings/" + project + ".webm", {
-      method: 'GET'
-    });
-    })
-
   return (
     <div className="viewer">
       <div className="container">
@@ -52,8 +46,8 @@ function Viewer(props:any) {
                 {/* TODO: Update src x2 below to match chosen storage option */}
                 <source src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".webm"}
                   type="video/webm" />
-                <track label="English" kind="subtitles" srcLang="en" src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".vtt"} default>
-                </track>
+                {/* <track label="English" kind="subtitles" srcLang="en" src={"https://msarecap.blob.core.windows.net/recordings/" + project + ".vtt"} default>
+                </track> */}
 
               </video>
             </p>
