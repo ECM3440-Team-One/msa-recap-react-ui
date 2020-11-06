@@ -4,7 +4,7 @@ import App from './App';
 
 test('renders link to Home page', () => {
   const { getByText } = render(<App />);
-  const homeLink = getByText('Recap');
+  const homeLink = getByText('Create');
   expect(homeLink).toBeInTheDocument();
 });
 
