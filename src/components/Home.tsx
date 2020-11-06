@@ -31,8 +31,6 @@ import {
 import { projectName, uploadBlob } from "../azure_upload";
 import { withRouter } from "react-router-dom";
 
-// const logArray = Array(<></>);
-
 const GlobalCss = withStyles({
   '@global': {
     '.MuiAccordionDetails-root': {
@@ -72,56 +70,6 @@ function Home() {
     downloadScreenCapture(filename.name);
     downloadAudioCapture(filename.name);
   }
-
-  // let log = '';
-
-  /*
-  const [log, setLog] = useState(<></>);
-
-
-  let updateLog = (cl: string, msg: string) => {
-    logArray.push(<span className={cl}>{msg}<br></br></span>);
-    setLog(<>{[...logArray]}</>);
-  }
-
-  console.log = (msg: any) => updateLog("info", msg);
-  console.error = (msg: any) => updateLog("error", msg);
-  console.warn = (msg: any) => updateLog("warn", msg);
-  console.info = (msg: any) => updateLog("info", msg);
-  */
-
-  /*
-  enum recordingStateEnum {
-    disabled,
-    enabled,
-    recording,
-    paused,
-    stopped,
-    downloading
-  };
-
-  let recordingState: recordingStateEnum = recordingStateEnum.disabled;
-
-  function setRecordingState(state: recordingStateEnum) {
-
-    recordingState = state;
-
-    switch (state) {
-      case recordingStateEnum.disabled:
-        break;
-      case recordingStateEnum.enabled:
-        break;
-      case recordingStateEnum.recording:
-        break;
-      case recordingStateEnum.paused:
-        break;
-      case recordingStateEnum.stopped:
-        break;
-      case recordingStateEnum.downloading:
-        break;
-    }
-  }
-  */
 
   let enableRecording = () => {
     projectName().then((name) => {
