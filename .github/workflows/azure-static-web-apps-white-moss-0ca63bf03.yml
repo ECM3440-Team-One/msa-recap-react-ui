@@ -3,16 +3,26 @@ name: Azure Static Web Apps CI/CD
 
 on:
   push:
-    branches:
-      - master
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - master
 
 jobs:
+  test:
+    if: github.event_name == 'push'
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn
+      - run: yarn test
+
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    if: github.ref == 'refs/heads/master' &&  github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
