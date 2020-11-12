@@ -1,60 +1,62 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core/styles';
+import { blue } from '@material-ui/core/colors';
 
-function Navigation(props:any) {
+const navigationTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: blue[900],
+      contrastText: '#fff'
+    }
+  }
+});
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1
+    },
+    menuButton: {
+      color: '#fff',
+      textTransform: 'none',
+      '&:hover': {
+        color: '#fff'
+      }
+    },
+    titleSpacer: {
+      flexGrow: 1,
+      '&:hover': {
+        backgroundColor: 'transparent',
+        cursor: 'default'
+      }
+    }
+  }),
+);
+
+function Navigation() {
+  const classes = useStyles();
+
   return (
-    <div className="navigation">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <Link className="navbar-brand" to="/">
-            Recap - A microservices demo by Michael Saunby
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarResponsive"
-            aria-controls="navbarResponsive"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarResponsive">
-            <ul className="navbar-nav ml-auto">
-              <li
-                className={`nav-item  ${
-                  props.location.pathname === "/" ? "active" : ""
-                }`}
-              >
-                <Link className="nav-link" to="/">
-                  Home
-                  <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li
-                className={`nav-item  ${
-                  props.location.pathname === "/about" ? "active" : ""
-                }`}
-              >
-                <Link className="nav-link" to="/about">
-                  About
-                </Link>
-              </li>
-              <li
-                className={`nav-item  ${
-                  props.location.pathname === "/viewer" ? "active" : ""
-                }`}
-              >
-                <Link className="nav-link" to="/viewer">
-                  Viewer
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <ThemeProvider theme={navigationTheme}>
+    <div>
+      <AppBar position="static" className={classes.root}>
+        <Toolbar>
+          <Button color="primary" variant="text" disableElevation disableRipple className={classes.menuButton} href="/" style={{ fontSize: '28px'}}>Recap</Button>
+          <Button color="primary" variant="text" disableElevation className={classes.titleSpacer}></Button>
+          <Button color="primary" variant="text" disableElevation className={classes.menuButton} href="/" style={{ fontSize: '16px'}}>Create</Button>
+          <Button color="primary" variant="text" disableElevation className={classes.menuButton} href="/about" style={{ fontSize: '16px'}}>About</Button>
+          <Button color="primary"  variant="text" disableElevation className={classes.menuButton} href="/feedback" style={{ fontSize: '16px'}}>Feedback</Button>
+
+        </Toolbar>
+      </AppBar>
     </div>
+    </ThemeProvider>
   );
 }
 

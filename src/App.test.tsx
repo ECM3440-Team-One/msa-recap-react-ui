@@ -4,7 +4,7 @@ import App from './App';
 
 test('renders link to Home page', () => {
   const { getByText } = render(<App />);
-  const homeLink = getByText('Home');
+  const homeLink = getByText('Create');
   expect(homeLink).toBeInTheDocument();
 });
 
@@ -14,8 +14,8 @@ test('renders link to About page', () => {
   expect(aboutLink).toBeInTheDocument();
 });
 
-test('renders link to Viewer page', () => {
+test('renders link to Feedback page', () => {
   const { getByText } = render(<App />);
-  const viewerLink = getByText('Viewer');
-  expect(viewerLink).toBeInTheDocument();
+  const feedbackLink = getByText('Feedback');
+  expect(feedbackLink).toBeInTheDocument();
 });
